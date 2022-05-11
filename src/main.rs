@@ -1,7 +1,7 @@
 use {
     rand::Rng,
     std::path::PathBuf,
-    clipboard_win::Clipboard
+    clipboard_win::{formats, get_clipboard}
 };
 
 mod args;
@@ -19,9 +19,8 @@ fn main() -> Result {
 }
 
 fn clipboard_image() -> Result<image::DynamicImage> {
-    let bitmap = Clipboard::new_attempts(10)?
-        .get_dib()?
-        .to_vec();
+    let bitmap = get_clipboard(formats::Bitmap)
+        .map_err(|e| format!("failed to get image from clipboard: {e}"))?;
     Ok(image::load_from_memory(&bitmap)?)
 }
 
