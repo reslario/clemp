@@ -8,7 +8,13 @@ mod args;
 
 type Result<T = ()> = std::result::Result<T, Box<dyn std::error::Error>>;
 
-fn main() -> Result {
+fn main() {
+    if let Err(e) = run() {
+        eprint!("error: {e}")
+    }
+}
+
+fn run() -> Result {
     let args = args::args();
     let image = clipboard_image()?;
     let temp_file = temp_file(&args.format);
