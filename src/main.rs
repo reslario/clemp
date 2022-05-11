@@ -13,7 +13,7 @@ fn main() -> Result {
     let image = clipboard_image()?;
     let temp_file = temp_file(&args.format)?;
     image.save(&temp_file)?;
-    println!("{}", temp_file.display());
+    print!("{}", temp_file.display());
 
     Ok(())
 }
