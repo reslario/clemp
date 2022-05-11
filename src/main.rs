@@ -28,7 +28,7 @@ fn clipboard_image() -> Result<image::DynamicImage> {
 fn temp_file(format: &str) -> PathBuf {
     let mut temp_dir = std::env::temp_dir();
     let rand = rand::thread_rng().gen::<u64>();
-    temp_dir.push(format!("clemp_{}", rand));
+    temp_dir.push(format!("clemp_{rand}"));
     temp_dir.set_extension(format);
 
     temp_dir
