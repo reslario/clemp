@@ -26,8 +26,20 @@ fn run() -> Result {
 
 fn clipboard_image() -> Result<image::DynamicImage> {
     let bitmap = get_clipboard(formats::Bitmap)
-        .map_err(|e| format!("failed to get image from clipboard: {e}"))?;
+        .map_err(clipboard_error)?;
     Ok(image::load_from_memory(&bitmap)?)
+}
+
+fn clipboard_error(error: clipboard_win::SystemError) -> String {
+    fn format_error(e: impl std::fmt::Display) -> String {
+        format!("failed to get image from clipboard: {e}")
+    }
+
+    if error.is_zero() {
+        format_error("content is not an image")
+    } else {
+        format_error(error)
+    }
 }
 
 fn temp_file(format: &str) -> PathBuf {
